@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMOOR — May 2026 Performance Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cocoa:     #0D0D12;
+    --espresso:  #13131A;
+    --ganache:   #1A1A24;
+    --caramel:   #9B8FFF;
+    --gold:      #B8AEFF;
+    --gilt:      #FFFFFF;
+    --cream:     #E8E6FF;
+    --mist:      #C8C4F0;
+    --ivory:     #F0EEFF;
+    --smoke:     rgba(155,143,255,0.10);
+    --rule:      rgba(155,143,255,0.18);
+    --text:      #E8E6FF;
+    --sub:       rgba(232,230,255,0.62);
+    --dim:       rgba(232,230,255,0.36);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cocoa);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── COVER ─────────────────────────────────────────────── */
+  .cover {
+    min-height: auto;
+    background: var(--cocoa);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 64px 72px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(155,143,255,0.10) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .cover-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 28px;
+  }
+
+  .cover-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(72px, 9vw, 120px);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    line-height: 0.9;
+    color: var(--gilt);
+    text-transform: uppercase;
+  }
+
+  .cover-brand em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--gold);
+  }
+
+  .cover-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--sub);
+    margin-top: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  .cover-meta {
+    margin-top: 36px;
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .cover-meta-item label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 4px;
+  }
+
+  .cover-meta-item span {
+    font-size: 13px;
+    color: var(--caramel);
+  }
+
+  .cover-ornament {
+    position: absolute;
+    right: 72px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.06;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(200px, 28vw, 380px);
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: -0.05em;
+    user-select: none;
+    line-height: 1;
+  }
+
+  /* ── LAYOUT ─────────────────────────────────────────────── */
+  .section {
+    padding: 80px 72px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--gilt);
+    margin-bottom: 24px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .section-body {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--sub);
+    max-width: 680px;
+  }
+
+  /* ── SUMMARY STATS ──────────────────────────────────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    margin-top: 48px;
+    border: 1px solid var(--rule);
+  }
+
+  .kpi-cell {
+    background: var(--espresso);
+    padding: 32px 28px;
+    position: relative;
+  }
+
+  .kpi-cell.highlight {
+    background: var(--ganache);
+  }
+
+  .kpi-label {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 12px;
+  }
+
+  .kpi-value {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 300;
+    color: var(--gilt);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .kpi-note {
+    font-size: 11px;
+    color: var(--caramel);
+    font-style: italic;
+  }
+
+  .kpi-note.miss { color: #FF7875; }
+  .kpi-note.hit  { color: #52C41A; }
+
+  /* ── VERTICAL CARDS ─────────────────────────────────────── */
+  .verticals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .vertical-card {
+    background: var(--espresso);
+    border: 1px solid var(--rule);
+    padding: 36px 32px;
+    position: relative;
+  }
+
+  .vertical-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--caramel), transparent);
+  }
+
+  .vc-tag {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 20px;
+  }
+
+  .vc-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--gilt);
+    margin-bottom: 28px;
+    line-height: 1.1;
+  }
+
+  .vc-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .vc-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid rgba(155,143,255,0.10);
+    padding-bottom: 10px;
+  }
+
+  .vc-stat:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .vc-stat-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  .vc-stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--gold);
+  }
+
+  .vc-channel-note {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-size: 11px;
+    color: var(--dim);
+    font-style: italic;
+  }
+
+  /* ── PAID VS ORGANIC ────────────────────────────────────── */
+  .split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 48px;
+  }
+
+  .split-cell {
+    background: var(--espresso);
+    padding: 36px 28px;
+  }
+
+  .split-cell.organic { background: var(--cocoa); }
+
+  .split-tag {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .split-tag.paid    { color: var(--caramel); }
+  .split-tag.organic { color: var(--dim); }
+
+  .split-channel {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--gilt);
+    margin-bottom: 20px;
+  }
+
+  .split-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(155,143,255,0.08);
+    font-size: 12px;
+  }
+
+  .split-row:last-child { border-bottom: none; }
+  .split-row-label { color: var(--dim); }
+  .split-row-val   { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 16px; }
+
+  /* ── PRODUCTS ───────────────────────────────────────────── */
+  .products-list {
+    margin-top: 48px;
+    border: 1px solid var(--rule);
+  }
+
+  .product-row {
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    padding: 22px 28px;
+    border-bottom: 1px solid rgba(155,143,255,0.08);
+    background: var(--espresso);
+    transition: background 0.2s;
+  }
+
+  .product-row:last-child { border-bottom: none; }
+  .product-row:hover { background: var(--ganache); }
+
+  .product-rank {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--caramel);
+    opacity: 0.5;
+    line-height: 1;
+  }
+
+  .product-name {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .product-tag {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  /* ── CATEGORY BREAKDOWN ─────────────────────────────────── */
+  .category-bars {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cat-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 160px;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .cat-name {
+    font-size: 12px;
+    color: var(--sub);
+    letter-spacing: 0.02em;
+  }
+
+  .cat-bar-track {
+    height: 3px;
+    background: rgba(155,143,255,0.12);
+    position: relative;
+  }
+
+  .cat-bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--caramel), var(--gold));
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .cat-label {
+    font-size: 10px;
+    color: var(--dim);
+    text-align: right;
+  }
+
+  /* ── B2B LEADS ──────────────────────────────────────────── */
+  .leads-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .leads-card {
+    background: var(--espresso);
+    border: 1px solid var(--rule);
+    padding: 36px 32px;
+  }
+
+  .leads-card.highlight {
+    border-color: var(--caramel);
+  }
+
+  .leads-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 300;
+    color: var(--gilt);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .leads-denom {
+    font-size: 12px;
+    color: var(--dim);
+    margin-bottom: 20px;
+  }
+
+  .leads-insight {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--sub);
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+  }
+
+  /* ── SUMMARY BOX ────────────────────────────────────────── */
+  .summary-box {
+    background: var(--espresso);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--caramel);
+    padding: 40px;
+    margin-top: 48px;
+  }
+
+  .summary-box p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--sub);
+    margin-bottom: 14px;
+  }
+
+  .summary-box p:last-child { margin-bottom: 0; }
+
+  .summary-box strong {
+    color: var(--gold);
+    font-weight: 400;
+  }
+
+  /* ── GA PLACEHOLDER ─────────────────────────────────────── */
+  .placeholder-box {
+    margin-top: 48px;
+    border: 1px dashed rgba(155,143,255,0.22);
+    padding: 60px 40px;
+    text-align: center;
+    background: rgba(44,26,16,0.4);
+  }
+
+  .placeholder-box p {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--dim);
+  }
+
+  .placeholder-box span {
+    display: block;
+    margin-top: 8px;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(155,143,255,0.28);
+  }
+
+  /* ── FOOTER ─────────────────────────────────────────────── */
+  .footer {
+    padding: 48px 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--cocoa);
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--caramel);
+  }
+
+  .footer-meta {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--dim);
+    text-align: right;
+  }
+
+  .footer-meta span { display: block; }
+
+  /* ── MISC ───────────────────────────────────────────────── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 48px;
+    align-items: start;
+  }
+
+  .target-tag {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border: 1px solid;
+    margin-left: 12px;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+  }
+
+  .target-tag.miss { border-color: #FF7875; color: #FF7875; }
+  .target-tag.hit  { border-color: #52C41A; color: #52C41A; }
+
+  .divider-label {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin: 32px 0 16px;
+  }
+
+  .insight-row {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(155,143,255,0.08);
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.6;
+  }
+
+  .insight-row strong {
+    color: var(--gold);
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .insight-row:last-child { border-bottom: none; }
+
+  @media (max-width: 900px) {
+    .cover, .section, .footer { padding: 48px 24px; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .verticals-grid { grid-template-columns: 1fr; }
+    .split-grid { grid-template-columns: 1fr; }
+    .leads-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .cat-row { grid-template-columns: 1fr auto; }
+    .cat-bar-track { display: none; }
+    .cover-ornament { display: none; }
+    .footer { flex-direction: column; gap: 20px; text-align: center; }
+    .footer-meta { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════ COVER -->
+<section class="cover">
+  <div class="cover-eyebrow">Performance Marketing Report &nbsp;·&nbsp; May 2026</div>
+  <div class="cover-brand">SM<em>OO</em>R</div>
+  <div class="cover-sub">Couverture Chocolates, Desserts &amp; Gourmet Experiences</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>Report Period</label>
+      <span>1 May – 31 May 2026</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Total Spend</label>
+      <span>₹1,96,684</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Total Revenue</label>
+      <span>₹25,65,951</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Overall ROI</label>
+      <span>13.03x</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Revenue Target</label>
+      <span>₹28,29,000 &nbsp;<span style="color:#FF7875;font-size:11px;">90.7% achieved</span></span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Prepared by</label>
+      <span>Blackcoffee Media</span>
+    </div>
+  </div>
+  <div class="cover-ornament" style="display:none;">S</div>
+</section>
+
+
+<!-- ════════════════════════════════ SECTION 01 — OVERVIEW -->
+<section class="section">
+  <div class="section-label">01 &nbsp; Executive Summary</div>
+  <div class="section-title">May at a <em>glance</em></div>
+
+  <div class="summary-box">
+    <p>May's primary objective was to achieve ₹28.29 lakhs in revenue across all three business verticals — B2C, B2B, and Experience Center. We delivered <strong>₹25,65,951 in total revenue</strong>, achieving 90.7% of target.</p>
+    <p>Overall ROAS fell short by approximately <strong>5.51%</strong> against the target benchmark. The primary gap came from the B2B segment, which generated ₹1,93,988 despite multiple optimisations across the month. The B2B shortfall of ₹5,39,348, combined with an Experience Center shortfall of ₹78,231, impacted the consolidated result.</p>
+    <p>On the positive side, <strong>B2C exceeded its revenue and ROAS targets</strong>, generating ₹3,10,996 above plan. Experience Center also surpassed its ROAS target. From a category standpoint, <strong>Cakes &amp; Dessert Bars led by revenue</strong>, followed by Candy &amp; Chocolate.</p>
+    <p>B2C advertising ran entirely through Google Ads this month, while B2B and Experience Center campaigns operated on Meta.</p>
+  </div>
+
+  <!-- KPI STRIP -->
+  <div class="kpi-grid">
+    <div class="kpi-cell highlight">
+      <div class="kpi-label">Total Revenue</div>
+      <div class="kpi-value">₹25.65L</div>
+      <div class="kpi-note miss">90.7% of ₹28.29L target</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Total Ad Spend</div>
+      <div class="kpi-value">₹1,96,684</div>
+      <div class="kpi-note">Across all verticals</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Overall ROI</div>
+      <div class="kpi-value">13.03x</div>
+      <div class="kpi-note miss">~5.51% below ROAS target</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-label">Blended ROAS (Ads)</div>
+      <div class="kpi-value">6.23x</div>
+      <div class="kpi-note">Ads revenue / total spend</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════ SECTION 02 — VERTICAL BREAKDOWN -->
+<section class="section">
+  <div class="section-label">02 &nbsp; Vertical Breakdown</div>
+  <div class="section-title">Performance <em>by vertical</em></div>
+  <p class="section-body">All three verticals ran in parallel. Each had distinct channel mixes and audience objectives.</p>
+
+  <div class="verticals-grid">
+
+    <!-- B2C -->
+    <div class="vertical-card">
+      <div class="vc-tag">B2C &nbsp;·&nbsp; Direct to Consumer</div>
+      <div class="vc-name">Consumer<br>Channel</div>
+      <div class="vc-stats">
+        <div class="vc-stat">
+          <span class="vc-stat-label">Ad Spend</span>
+          <span class="vc-stat-val">₹76,564</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">Total Revenue</span>
+          <span class="vc-stat-val">₹12,91,888</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">ROI</span>
+          <span class="vc-stat-val">16.87x</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">ROAS (Ads)</span>
+          <span class="vc-stat-val">8.81x</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">Paid Revenue</span>
+          <span class="vc-stat-val">₹6,74,446</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">Organic Revenue</span>
+          <span class="vc-stat-val">₹6,17,442</span>
+        </div>
+      </div>
+      <div class="vc-channel-note">Channel: Google Ads exclusively. B2C campaigns paused on Meta this month.</div>
+    </div>
+
+    <!-- B2B -->
+    <div class="vertical-card">
+      <div class="vc-tag">B2B &nbsp;·&nbsp; Corporate B2B</div>
+      <div class="vc-name">Corporate<br>Channel</div>
+      <div class="vc-stats">
+        <div class="vc-stat">
+          <span class="vc-stat-label">Ad Spend</span>
+          <span class="vc-stat-val">₹53,886</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">Total Revenue</span>
+          <span class="vc-stat-val">₹1,93,988</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">ROI</span>
+          <span class="vc-stat-val">3.60x</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">ROAS (Ads)</span>
+          <span class="vc-stat-val">1.71x</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">Paid Revenue</span>
+          <span class="vc-stat-val">₹91,988</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">Organic Revenue</span>
+          <span class="vc-stat-val">₹1,02,000</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">Leads Generated</span>
+          <span class="vc-stat-val">82</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">CPL</span>
+          <span class="vc-stat-val">₹657</span>
+        </div>
+      </div>
+      <div class="vc-channel-note" style="color:#FF7875;">Channel: Meta Ads. Primary drag on overall target achievement.</div>
+    </div>
+
+    <!-- Experience Center -->
+    <div class="vertical-card">
+      <div class="vc-tag">Experience Center &nbsp;·&nbsp; Flagship</div>
+      <div class="vc-name">Experience<br>Center</div>
+      <div class="vc-stats">
+        <div class="vc-stat">
+          <span class="vc-stat-label">Ad Spend</span>
+          <span class="vc-stat-val">₹66,234</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">Total Revenue</span>
+          <span class="vc-stat-val">₹12,49,455</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">ROI</span>
+          <span class="vc-stat-val">18.86x</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">ROAS (Ads)</span>
+          <span class="vc-stat-val">6.93x</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">Paid Revenue</span>
+          <span class="vc-stat-val">₹4,59,239</span>
+        </div>
+        <div class="vc-stat">
+          <span class="vc-stat-label">Organic Revenue</span>
+          <span class="vc-stat-val">₹7,90,216</span>
+        </div>
+      </div>
+      <div class="vc-channel-note" style="color:#52C41A;">Channel: Paid Ads. ROAS and revenue targets both surpassed.</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════ SECTION 03 — PAID vs ORGANIC -->
+<section class="section">
+  <div class="section-label">03 &nbsp; Paid vs Organic</div>
+  <div class="section-title">Revenue <em>attribution</em></div>
+  <p class="section-body">Across all three verticals, ₹12,25,673 came from paid ads and ₹13,09,658 was organically driven — a near-even split demonstrating strong base demand.</p>
+
+  <div class="split-grid">
+
+    <div class="split-cell">
+      <div class="split-tag paid">All Channels &nbsp;·&nbsp; All Verticals</div>
+      <div class="split-channel">Paid Ads</div>
+      <div class="split-row"><span class="split-row-label">Total Spend</span><span class="split-row-val">₹1,96,684</span></div>
+      <div class="split-row"><span class="split-row-label">Paid Revenue</span><span class="split-row-val">₹12,25,673</span></div>
+      <div class="split-row"><span class="split-row-label">Blended ROAS</span><span class="split-row-val">6.23x</span></div>
+      <div class="split-row"><span class="split-row-label">B2B Leads</span><span class="split-row-val">82</span></div>
+    </div>
+
+    <div class="split-cell organic">
+      <div class="split-tag organic">All Verticals</div>
+      <div class="split-channel">Organic</div>
+      <div class="split-row"><span class="split-row-label">B2C Organic</span><span class="split-row-val">₹6,17,442</span></div>
+      <div class="split-row"><span class="split-row-label">B2B Organic</span><span class="split-row-val">₹1,02,000</span></div>
+      <div class="split-row"><span class="split-row-label">EC Organic</span><span class="split-row-val">₹7,90,216</span></div>
+      <div class="split-row"><span class="split-row-label">Total Organic</span><span class="split-row-val">₹15,09,658</span></div>
+    </div>
+
+  </div>
+
+  <div class="two-col" style="margin-top:40px;">
+    <div>
+      <div class="divider-label">Paid revenue share</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--gilt);">47.8%</div>
+      <div style="font-size:12px;color:var(--dim);margin-top:4px;">₹12,25,673 of ₹25,65,951</div>
+    </div>
+    <div>
+      <div class="divider-label">Organic revenue share</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--gilt);">52.2%</div>
+      <div style="font-size:12px;color:var(--dim);margin-top:4px;">₹15,09,658 of ₹25,65,951</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════ SECTION 04 — TOP PRODUCTS -->
+<section class="section">
+  <div class="section-label">04 &nbsp; Product Performance</div>
+  <div class="section-title">Top-performing <em>products</em></div>
+  <p class="section-body">B2C gross sales breakdown by product — May 2026. Grand total: ₹11,32,621.</p>
+
+  <div class="products-list">
+    <div class="product-row">
+      <span class="product-rank">01</span>
+      <div>
+        <div class="product-name">Anniversary Hamper Large</div>
+        <span class="product-tag">B2C · Food Gift Baskets</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);">₹82,929</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:2px;">7.32%</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <span class="product-rank">02</span>
+      <div>
+        <div class="product-name">Belgium Chocolate Truffle (Eggless) — 1kg</div>
+        <span class="product-tag">B2C · Candy &amp; Chocolate</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);">₹77,700</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:2px;">6.86%</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <span class="product-rank">03</span>
+      <div>
+        <div class="product-name">Belgium Chocolate Truffle (Eggless) — Half kg</div>
+        <span class="product-tag">B2C · Candy &amp; Chocolate</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);">₹58,258</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:2px;">5.14%</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <span class="product-rank">04</span>
+      <div>
+        <div class="product-name">Choco Truffle Cake — Half kg</div>
+        <span class="product-tag">B2C · Cakes &amp; Dessert Bars</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);">₹47,186</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:2px;">4.17%</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <span class="product-rank">05</span>
+      <div>
+        <div class="product-name">Choco Truffle Cake (Eggless) — 1kg</div>
+        <span class="product-tag">B2C · Cakes &amp; Dessert Bars</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);">₹40,293</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:2px;">3.56%</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <span class="product-rank">06</span>
+      <div>
+        <div class="product-name">Baileys x SMOOR: Hazelnut Chocolate Cake</div>
+        <span class="product-tag">B2C · Cakes &amp; Dessert Bars</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);">₹38,070</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:2px;">3.36%</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <span class="product-rank">07</span>
+      <div>
+        <div class="product-name">Celebration Pack Box of 20</div>
+        <span class="product-tag">B2C · Candy &amp; Chocolate</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);">₹36,797</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:2px;">3.25%</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <span class="product-rank">08</span>
+      <div>
+        <div class="product-name">Mango Cake Pull Up</div>
+        <span class="product-tag">B2C · Cakes &amp; Dessert Bars</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);">₹34,410</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:2px;">3.04%</div>
+      </div>
+    </div>
+    <div class="product-row" style="background:var(--ganache);">
+      <span class="product-rank" style="opacity:0.25;">—</span>
+      <div>
+        <div class="product-name" style="color:var(--dim);">All Other Products</div>
+        <span class="product-tag">Remaining catalog</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--dim);">₹7,16,978</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:2px;">63.30%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════ SECTION 05 — CATEGORY BREAKDOWN -->
+<section class="section">
+  <div class="section-label">05 &nbsp; Category Breakdown</div>
+  <div class="section-title">B2C revenue <em>by category</em></div>
+  <p class="section-body">B2C gross sales by product type — May 2026. Grand total: ₹11,32,621.</p>
+
+  <div class="category-bars">
+    <div class="cat-row">
+      <div class="cat-name">Cakes &amp; Dessert Bars</div>
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:100%"></div></div>
+      <div style="text-align:right;min-width:160px;">
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);">₹6,29,803</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px;">55.61%</div>
+      </div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Candy &amp; Chocolate</div>
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:46.9%"></div></div>
+      <div style="text-align:right;min-width:160px;">
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);">₹2,95,162</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px;">26.06%</div>
+      </div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Food Gift Baskets</div>
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:19.5%"></div></div>
+      <div style="text-align:right;min-width:160px;">
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);">₹1,22,871</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px;">10.85%</div>
+      </div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Cookies</div>
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:7.4%"></div></div>
+      <div style="text-align:right;min-width:160px;">
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);">₹46,394</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px;">4.10%</div>
+      </div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Baking &amp; Cookie Sheets</div>
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:3.1%"></div></div>
+      <div style="text-align:right;min-width:160px;">
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);">₹19,440</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px;">1.72%</div>
+      </div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Dessert Toppings</div>
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:1.8%"></div></div>
+      <div style="text-align:right;min-width:160px;">
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);">₹11,494</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px;">1.01%</div>
+      </div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Cookie &amp; Brownie Dough</div>
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:0.7%"></div></div>
+      <div style="text-align:right;min-width:160px;">
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);">₹4,536</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px;">0.40%</div>
+      </div>
+    </div>
+    <div class="cat-row">
+      <div class="cat-name">Hot Chocolate</div>
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:0.1%"></div></div>
+      <div style="text-align:right;min-width:160px;">
+        <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);">₹670</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px;">0.06%</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ════════════════════════════════ SECTION 05b — B2C LOCATION BREAKDOWN -->
+<section class="section">
+  <div class="section-label">05b &nbsp; B2C Location Performance</div>
+  <div class="section-title">Revenue by <em>geography</em></div>
+  <p class="section-body">B2C revenue, spend, and ROI across locations — Jan to May 2026. Karnataka dominates at 75% contribution.</p>
+
+  <!-- TABLE -->
+  <div style="overflow-x:auto;margin-top:48px;">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead>
+        <tr>
+          <th style="text-align:left;padding:10px 14px;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;">Location</th>
+          <th colspan="5" style="text-align:center;padding:10px 14px;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--caramel);border-bottom:1px solid var(--rule);font-weight:400;">Revenue (₹)</th>
+          <th colspan="5" style="text-align:center;padding:10px 14px;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;">Spend (₹)</th>
+          <th colspan="5" style="text-align:center;padding:10px 14px;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;">ROI</th>
+          <th style="text-align:right;padding:10px 14px;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--rule);font-weight:400;">Total Rev</th>
+          <th style="text-align:right;padding:10px 14px;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;">Total Spend</th>
+          <th style="text-align:right;padding:10px 14px;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;">Total ROI</th>
+          <th style="text-align:right;padding:10px 14px;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--caramel);border-bottom:1px solid var(--rule);font-weight:400;">% Contrib.</th>
+        </tr>
+        <tr>
+          <th style="padding:4px 14px 10px;font-size:9px;color:transparent;border-bottom:1px solid var(--rule);"></th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Jan</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Feb</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Mar</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Apr</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--caramel);border-bottom:1px solid var(--rule);font-weight:500;text-align:center;">May</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Jan</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Feb</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Mar</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Apr</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--caramel);border-bottom:1px solid var(--rule);font-weight:500;text-align:center;">May</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Jan</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Feb</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Mar</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--dim);border-bottom:1px solid var(--rule);font-weight:400;text-align:center;">Apr</th>
+          <th style="padding:4px 8px 10px;font-size:9px;letter-spacing:0.15em;color:var(--caramel);border-bottom:1px solid var(--rule);font-weight:500;text-align:center;">May</th>
+          <th></th><th></th><th></th><th></th>
+        </tr>
+      </thead>
+      <tbody id="loc-tbody">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PIE CHART — May only -->
+  <div style="margin-top:56px;">
+    <div style="font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--caramel);margin-bottom:28px;">May 2026 Revenue Contribution</div>
+    <div style="display:flex;align-items:center;gap:60px;flex-wrap:wrap;">
+      <canvas id="locPie" width="260" height="260" style="flex-shrink:0;"></canvas>
+      <div id="pie-legend" style="display:flex;flex-direction:column;gap:14px;"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ── Location data ────────────────────────────────────────────
+const locs = [
+  {
+    name: 'Karnataka',
+    rev:   [772496, 900371, 816604, 885338, 914067],
+    spend: [158535, 143426, 145102, 100833,  59922],
+    roi:   [4.87,   6.28,   5.63,   8.78,   15.25],
+    total: { rev: 4288876, spend: 607817, roi: 7.06, pct: '75%' }
+  },
+  {
+    name: 'Maharashtra',
+    rev:   [181218, 237676, 181367, 204476, 134112],
+    spend: [ 55802,  53511,  45814,  30926,   8797],
+    roi:   [3.25,   4.44,   3.96,   6.61,   15.25],
+    total: { rev: 938850, spend: 194850, roi: 4.82, pct: '16%' }
+  },
+  {
+    name: 'Tamil Nadu',
+    rev:   [45621, 68631, 39286, 43018, 55399],
+    spend: [12197, 14202, 10746,  6381,  2937],
+    roi:   [3.74,  4.83,  3.66,  6.74, 18.86],
+    total: { rev: 251956, spend: 46463, roi: 5.42, pct: '4%' }
+  },
+  {
+    name: 'Haryana',
+    rev:   [29640, 44847, 20126,  5424, 16021],
+    spend: [ 1844,  3467,  3212,  3115,   871],
+    roi:   [16.07, 12.94,  6.27,  1.74, 18.39],
+    total: { rev: 116058, spend: 12509, roi: 9.28, pct: '2%' }
+  },
+  {
+    name: 'Delhi',
+    rev:   [11151, 14901, 16492, 34163, 15340],
+    spend: [13529, 13607,  4808,  4069,  1114],
+    roi:   [0.82,  1.10,  3.43,  8.40, 13.77],
+    total: { rev: 92046, spend: 37127, roi: 2.48, pct: '2%' }
+  },
+  {
+    name: 'Uttar Pradesh',
+    rev:   [3971, 3173, 6427, 2987, 7447],
+    spend: [1534, 2628,  601, 1011,  296],
+    roi:   [2.59, 1.21, 10.69, 2.95, 25.16],
+    total: { rev: 24004, spend: 6071, roi: 3.95, pct: '0%' }
+  }
+];
+
+const months = ['Jan','Feb','Mar','Apr','May'];
+const fmt = n => '₹' + n.toLocaleString('en-IN');
+const fmtRoi = n => n.toFixed(2) + 'x';
+
+// Build table rows
+const tbody = document.getElementById('loc-tbody');
+locs.forEach((loc, i) => {
+  const tr = document.createElement('tr');
+  tr.style.borderBottom = '1px solid rgba(155,143,255,0.08)';
+  const isGrand = false;
+
+  let html = `<td style="padding:12px 14px;color:var(--text);font-size:12px;white-space:nowrap;">${loc.name}</td>`;
+
+  // Revenue months
+  loc.rev.forEach((v, mi) => {
+    const isMay = mi === 4;
+    html += `<td style="padding:12px 8px;text-align:center;font-family:'Playfair Display',serif;font-size:13px;color:${isMay ? 'var(--gold)' : 'var(--sub)'};${isMay ? 'font-weight:500;' : ''}">${fmt(v)}</td>`;
+  });
+  // Spend months
+  loc.spend.forEach((v, mi) => {
+    const isMay = mi === 4;
+    html += `<td style="padding:12px 8px;text-align:center;font-size:12px;color:${isMay ? 'var(--sub)' : 'var(--dim)'};${isMay ? 'font-weight:500;' : ''}">${fmt(v)}</td>`;
+  });
+  // ROI months
+  loc.roi.forEach((v, mi) => {
+    const isMay = mi === 4;
+    html += `<td style="padding:12px 8px;text-align:center;font-family:'Playfair Display',serif;font-size:13px;color:${isMay ? 'var(--caramel)' : 'var(--dim)'};${isMay ? 'font-weight:500;' : ''}">${fmtRoi(v)}</td>`;
+  });
+  // Totals
+  html += `<td style="padding:12px 14px;text-align:right;font-family:'Playfair Display',serif;font-size:14px;color:var(--gold);">${fmt(loc.total.rev)}</td>`;
+  html += `<td style="padding:12px 14px;text-align:right;font-size:12px;color:var(--dim);">${fmt(loc.total.spend)}</td>`;
+  html += `<td style="padding:12px 14px;text-align:right;font-family:'Playfair Display',serif;font-size:14px;color:var(--caramel);">${fmtRoi(loc.total.roi)}</td>`;
+  html += `<td style="padding:12px 14px;text-align:right;font-size:12px;font-weight:500;color:var(--caramel);">${loc.total.pct}</td>`;
+
+  tr.innerHTML = html;
+  tbody.appendChild(tr);
+});
+
+// Grand total row
+const grandRev   = [1044096,1269599,1080302,1175406,1142386];
+const grandSpend = [243441,230841,210283,146335,73937];
+const grandRoi   = [4.29,5.50,5.14,6.43,15.45];
+const gtr = document.createElement('tr');
+gtr.style.cssText = 'border-top:2px solid var(--rule);background:var(--ganache);';
+let ghtml = `<td style="padding:14px 14px;color:var(--gilt);font-size:12px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;">Grand Total</td>`;
+grandRev.forEach((v,mi)   => { ghtml += `<td style="padding:14px 8px;text-align:center;font-family:'Playfair Display',serif;font-size:13px;color:${mi===4?'var(--gilt)':'var(--sub)'};">${fmt(v)}</td>`; });
+grandSpend.forEach((v,mi) => { ghtml += `<td style="padding:14px 8px;text-align:center;font-size:12px;color:${mi===4?'var(--sub)':'var(--dim)'};">${fmt(v)}</td>`; });
+grandRoi.forEach((v,mi)   => { ghtml += `<td style="padding:14px 8px;text-align:center;font-family:'Playfair Display',serif;font-size:13px;color:${mi===4?'var(--caramel)':'var(--dim)'};">${v.toFixed(2)}x</td>`; });
+ghtml += `<td style="padding:14px 14px;text-align:right;font-family:'Playfair Display',serif;font-size:15px;color:var(--gilt);">₹57,11,788</td>`;
+ghtml += `<td style="padding:14px 14px;text-align:right;font-size:12px;color:var(--dim);">₹9,04,837</td>`;
+ghtml += `<td style="padding:14px 14px;text-align:right;font-family:'Playfair Display',serif;font-size:15px;color:var(--caramel);">6.31x</td>`;
+ghtml += `<td style="padding:14px 14px;text-align:right;font-size:12px;color:var(--caramel);">100%</td>`;
+gtr.innerHTML = ghtml;
+tbody.appendChild(gtr);
+
+// ── PIE CHART ────────────────────────────────────────────────
+const mayRevs  = locs.map(l => l.rev[4]);
+const total    = mayRevs.reduce((a,b)=>a+b,0);
+const palette  = ['#9B8FFF','#7B6FE0','#B8AEFF','#6B5FCF','#D4CCFF','#4B3FB0'];
+const labels   = locs.map(l => l.name);
+
+const canvas   = document.getElementById('locPie');
+const ctx      = canvas.getContext('2d');
+const cx = 130, cy = 130, r = 110, gap = 0.018;
+let startAngle = -Math.PI / 2;
+
+mayRevs.forEach((val, i) => {
+  const slice = (val / total) * (2 * Math.PI);
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.arc(cx, cy, r, startAngle + gap, startAngle + slice - gap);
+  ctx.closePath();
+  ctx.fillStyle = palette[i];
+  ctx.fill();
+  startAngle += slice;
+});
+
+// Center label
+ctx.fillStyle = '#E8E6FF';
+ctx.font = '500 13px Inter, sans-serif';
+ctx.textAlign = 'center';
+ctx.fillText('May 2026', cx, cy - 6);
+ctx.fillStyle = 'rgba(232,230,255,0.45)';
+ctx.font = '11px Inter, sans-serif';
+ctx.fillText('B2C Revenue', cx, cy + 12);
+
+// Legend
+const legend = document.getElementById('pie-legend');
+locs.forEach((loc, i) => {
+  const pct = ((loc.rev[4] / total) * 100).toFixed(1);
+  const item = document.createElement('div');
+  item.style.cssText = 'display:flex;align-items:center;gap:12px;';
+  item.innerHTML = `
+    <span style="width:10px;height:10px;border-radius:2px;background:${palette[i]};flex-shrink:0;display:inline-block;"></span>
+    <span style="font-size:12px;color:var(--sub);min-width:110px;">${loc.name}</span>
+    <span style="font-family:'Playfair Display',serif;font-size:14px;color:var(--gold);">${fmt(loc.rev[4])}</span>
+    <span style="font-size:11px;color:var(--dim);margin-left:4px;">${pct}%</span>
+  `;
+  legend.appendChild(item);
+});
+</script>
+
+
+<!-- ════════════════════════════════ SECTION 06 — B2B DETAIL -->
+<section class="section">
+  <div class="section-label">06 &nbsp; B2B Deep Dive</div>
+  <div class="section-title">Corporate <em>pipeline</em></div>
+  <p class="section-body">B2B was the primary underperformer in May, falling ₹5.39 lakhs short of its revenue target despite generating 82 qualified leads.</p>
+
+  <div class="leads-grid">
+    <div class="leads-card highlight">
+      <div class="leads-number">82</div>
+      <div class="leads-denom">Total leads generated in May</div>
+      <div class="leads-insight">
+        Approximately 70% of leads generated were qualified. With new campaign optimisations and structural changes implemented, lead quality improvement is expected in the coming months. CPL came in at ₹657 against ₹53,886 in spend.
+      </div>
+    </div>
+    <div class="leads-card">
+      <div class="leads-number">70%</div>
+      <div class="leads-denom">Estimated lead qualification rate</div>
+      <div class="leads-insight">
+        B2B organic revenue (₹1,02,000) outpaced paid revenue (₹91,988), signalling that pipeline closure depends more on sales follow-through than media investment. Campaign structural changes have been made — performance impact expected from June onward.
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <div class="insight-row">
+      <strong>Revenue vs Target</strong>
+      ₹1,93,988 generated against a higher target. Shortfall of ₹5,39,348 was the single largest gap in overall performance.
+    </div>
+    <div class="insight-row">
+      <strong>Lead Volume</strong>
+      82 leads at ₹657 CPL is reasonable for corporate gifting, but conversion-to-revenue ratio needs improvement. Sales cycle and closing rate tracking to be added in June reporting.
+    </div>
+    <div class="insight-row">
+      <strong>Outlook</strong>
+      Campaign optimisations and structural changes have been implemented. Lead quality improvement anticipated from June 2026.
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ════════════════════════════════ FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">SMOOR</div>
+  <div class="footer-meta">
+    <span>May 2026 Performance Marketing Report</span>
+    <span style="margin-top:4px;">Prepared by Sandeep Sahoo &amp; Jaya Thakur &nbsp;·&nbsp; Blackcoffee Media &nbsp;·&nbsp; Confidential</span>
+    <span style="margin-top:4px;color:rgba(155,143,255,0.35);">blackcoffee.media</span>
+  </div>
+</footer>
+
+</body>
+</html>
+
