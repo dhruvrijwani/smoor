@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smoor — June 2026 Performance Report</title>
+<style>
+  :root{
+    --cacao-900:#241611;
+    --cacao-800:#2f1d15;
+    --cream:#f2e9db;
+    --cream-dim:#bfad97;
+    --gold:#c89b3c;
+    --gold-soft:#e0c17a;
+    --wine:#8a3341;
+    --wine-soft:#c96b78;
+    --sage:#7e9a6d;
+    --line: rgba(242,233,219,0.16);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cacao-900);
+    color:var(--cream);
+    font-family:Arial, Helvetica, sans-serif;
+    line-height:1.55;
+    font-size:15px;
+  }
+  h1,h2,h3,h4{font-family:Georgia,'Times New Roman',serif; margin:0; color:var(--cream); font-weight:normal;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+  a{color:var(--gold-soft);}
+
+  /* ---------- masthead ---------- */
+  .masthead{padding:56px 0 40px; border-bottom:1px solid var(--line);}
+  .cacao-strip{display:flex; gap:5px; margin-bottom:24px;}
+  .cacao-strip span{width:28px; height:8px; border-radius:0 0 3px 3px; background:linear-gradient(180deg,var(--gold) 0%, #8a5a1f 100%);}
+  .cacao-strip span:nth-child(3n){background:linear-gradient(180deg,var(--wine-soft),var(--wine));}
+  .masthead .brand{font-size:13px; letter-spacing:.2em; text-transform:uppercase; color:var(--cream-dim); margin-bottom:14px;}
+  .masthead h1{font-size:clamp(26px,6vw,40px); line-height:1.15; max-width:700px;}
+  .masthead .sub{margin-top:14px; max-width:640px; color:var(--cream-dim); font-size:14.5px;}
+  .meta-row{display:flex; gap:28px; margin-top:30px; flex-wrap:wrap;}
+  .meta-row div{font-size:12.5px; color:var(--cream-dim);}
+  .meta-row strong{display:block; color:var(--cream); font-size:14.5px; font-weight:bold; margin-top:3px;}
+
+  /* ---------- sections ---------- */
+  section{padding:40px 0; border-bottom:1px solid var(--line);}
+  .section-num{font-size:13px; color:var(--gold); margin-bottom:6px;}
+  .section-head{margin-bottom:24px; max-width:720px;}
+  .section-head h2{font-size:24px; margin-bottom:8px;}
+  .section-head p{color:var(--cream-dim); font-size:14px; margin:0;}
+  hr.rule{border:none; border-top:1px solid var(--line); margin:18px 0;}
+
+  /* ---------- KPI cards ---------- */
+  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  .kpi{background:var(--cacao-900); padding:18px 16px; display:flex; flex-direction:column; gap:5px;}
+  .kpi .label{font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--cream-dim);}
+  .kpi .value{font-family:Georgia,serif; font-size:24px; color:var(--gold-soft);}
+  .kpi .note{font-size:11.5px; color:var(--cream-dim);}
+
+  .tab{display:inline-block; font-size:12px; font-weight:bold; padding:3px 10px; border-radius:3px; background:var(--gold); color:var(--cacao-900);}
+  .tab.wine{background:var(--wine-soft); color:#fff;}
+  .tab.sage{background:var(--sage); color:var(--cacao-900);}
+
+  /* ---------- segment cards ---------- */
+  .segment-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .segment-card{border:1px solid var(--line); background:var(--cacao-800); padding:18px;}
+  .segment-card h3{font-size:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; font-family:Arial,sans-serif; font-weight:bold;}
+  .stat-line{display:flex; justify-content:space-between; font-size:13.5px; padding:6px 0; border-bottom:1px dashed var(--line);}
+  .stat-line:last-child{border-bottom:none;}
+  .stat-line span:first-child{color:var(--cream-dim);}
+  .stat-line span:last-child{font-weight:bold;}
+
+  /* ---------- tables ---------- */
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th{text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.02em; color:var(--gold-soft); padding:9px 10px; border-bottom:1px solid var(--gold); white-space:nowrap;}
+  td{padding:9px 10px; border-bottom:1px solid var(--line); white-space:nowrap;}
+  td.label-cell{font-weight:bold;}
+  tr.total td{border-top:1px solid var(--gold); font-weight:bold; color:var(--gold-soft);}
+  .table-scroll{border:1px solid var(--line);}
+  .table-title{font-family:Georgia,serif; font-size:16px; margin:28px 0 10px;}
+  .table-title:first-child{margin-top:0;}
+  .table-note{font-size:12px; color:var(--cream-dim); margin-top:8px;}
+
+  /* ---------- narrative / vertical blocks ---------- */
+  .vertical-block{margin-bottom:26px;}
+  .vertical-block:last-child{margin-bottom:0;}
+  .vertical-block h4{font-size:14px; color:var(--gold-soft); text-transform:uppercase; letter-spacing:.03em; margin-bottom:10px; font-family:Arial,sans-serif; font-weight:bold;}
+  .bullet-list{list-style:none; margin:0; padding:0;}
+  .bullet-list li{display:flex; gap:10px; font-size:14px; padding:10px 0; border-bottom:1px solid var(--line);}
+  .bullet-list li:last-child{border-bottom:none;}
+  .bullet-list li::before{content:""; width:6px; height:6px; background:var(--gold); margin-top:6px; flex-shrink:0;}
+
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:28px;}
+
+  /* ---------- chart ---------- */
+  .chart-card{border:1px solid var(--line); background:var(--cacao-800); padding:16px 12px;}
+
+  /* ---------- split bars ---------- */
+  .split-bar{height:12px; width:100%; border-radius:6px; overflow:hidden; display:flex; margin:8px 0 14px; border:1px solid var(--line);}
+  .split-bar .ads{background:var(--gold);}
+  .split-bar .organic{background:var(--sage);}
+  .split-legend{display:flex; gap:18px; font-size:12px; color:var(--cream-dim); margin-bottom:4px; flex-wrap:wrap;}
+  .split-legend span::before{content:"●"; margin-right:5px;}
+  .split-legend .ads-l::before{color:var(--gold);}
+  .split-legend .organic-l::before{color:var(--sage);}
+
+  /* ---------- footer ---------- */
+  footer{padding:36px 0 50px; text-align:center;}
+  footer .brand-mark{font-family:Georgia,serif; font-size:18px; color:var(--gold-soft);}
+  footer p{color:var(--cream-dim); font-size:12px; margin:5px 0 0;}
+
+  /* ---------- mobile ---------- */
+  @media (max-width:760px){
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .segment-grid{grid-template-columns:1fr;}
+    .two-col{grid-template-columns:1fr;}
+    section{padding:30px 0;}
+
+    /* stack tables into cards so nothing scrolls sideways */
+    .table-scroll table, .table-scroll thead, .table-scroll tbody, .table-scroll th, .table-scroll td, .table-scroll tr{display:block;}
+    .table-scroll thead{display:none;}
+    .table-scroll tr{border-bottom:1px solid var(--gold); padding:10px 0; margin:0 10px;}
+    .table-scroll tr.total{border-bottom:2px solid var(--gold);}
+    .table-scroll td{
+      display:flex; justify-content:space-between; align-items:center;
+      border-bottom:none; padding:5px 0; white-space:normal; text-align:right;
+    }
+    .table-scroll td.label-cell{padding-top:8px;}
+    .table-scroll td::before{
+      content:attr(data-label); color:var(--cream-dim); font-weight:normal;
+      text-transform:uppercase; font-size:10.5px; text-align:left; padding-right:10px;
+    }
+    .table-scroll td.label-cell::before{content:none;}
+    .table-scroll td.label-cell{justify-content:flex-start; font-size:14.5px; color:var(--gold-soft);}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="cacao-strip"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="brand">Smoor</div>
+    <h1>June 2026 Performance Marketing Report</h1>
+    <p class="sub">Performance summary of Smoor's marketing activity for June 2026, covering B2C (Delhi NCR), B2B, and Experience Center channels.</p>
+    <div class="meta-row">
+      <div>Report Period<strong>June 1–30, 2026</strong></div>
+      <div>Category<strong>Premium D2C &amp; Gifting — Chocolate &amp; Cakes</strong></div>
+      <div>Prepared For<strong>Smoor Growth Team</strong></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">01</div>
+      <h2>Executive Summary</h2>
+    </div>
+    <ul class="bullet-list">
+      <li>Overall revenue for June was ₹40,19,924 against a tracked ad spend of ₹82,746, giving a blended ROI of 48.58x.</li>
+      <li>Ad spend was kept low on purpose this month, since June was largely a test month for the Delhi NCR region.</li>
+      <li>Delhi NCR generated ₹33,377 in revenue on ₹30,652 spend, a 1.09x ROAS. Its share of overall revenue is still around 2%.</li>
+      <li>B2B had its second-highest revenue month of the year at ₹9,12,449, with 38.22x overall ROI (10.49x on paid ads).</li>
+      <li>The Experience Center had its highest revenue in the last four months at ₹18,94,358, driven mainly by organic and event-led bookings.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">02</div>
+      <h2>Segment Performance</h2>
+      <p>June numbers for each business segment — B2C Delhi NCR, B2B, and Experience Center.</p>
+    </div>
+
+    <div class="segment-grid">
+      <div class="segment-card">
+        <h3>B2C — Delhi NCR <span class="tab">1.09x</span></h3>
+        <div class="stat-line"><span>Spend</span><span>₹30,652</span></div>
+        <div class="stat-line"><span>Revenue</span><span>₹33,377</span></div>
+        <div class="stat-line"><span>ROI</span><span>1.09x</span></div>
+      </div>
+      <div class="segment-card">
+        <h3>B2B <span class="tab wine">38.22x</span></h3>
+        <div class="stat-line"><span>Spend</span><span>₹23,876</span></div>
+        <div class="stat-line"><span>Revenue</span><span>₹9,12,449</span></div>
+        <div class="stat-line"><span>ROI</span><span>38.22x</span></div>
+      </div>
+      <div class="segment-card">
+        <h3>Experience Center <span class="tab sage">67.13x</span></h3>
+        <div class="stat-line"><span>Spend</span><span>₹28,218</span></div>
+        <div class="stat-line"><span>Revenue</span><span>₹18,94,358</span></div>
+        <div class="stat-line"><span>ROI</span><span>67.13x</span></div>
+      </div>
+    </div>
+
+    <div class="table-title">Delhi NCR — Product Category Breakdown</div>
+    <p class="table-note" style="margin-top:0;margin-bottom:10px;">Catalogue campaign, targeted to people with interests in bakeries, cakes and similar products.</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Product Category</th><th>Revenue</th><th>Spend</th><th>ROI</th></tr></thead>
+        <tbody>
+          <tr><td class="label-cell" data-label="Product Category">Candy &amp; Chocolate</td><td data-label="Revenue">₹15,080</td><td data-label="Spend">₹11,573</td><td data-label="ROI">1.30</td></tr>
+          <tr><td class="label-cell" data-label="Product Category">Cakes &amp; Dessert Bars</td><td data-label="Revenue">₹7,475</td><td data-label="Spend">₹8,581</td><td data-label="ROI">0.87</td></tr>
+          <tr><td class="label-cell" data-label="Product Category">Dessert Toppings</td><td data-label="Revenue">₹6,413</td><td data-label="Spend">₹0</td><td data-label="ROI">0.00</td></tr>
+          <tr><td class="label-cell" data-label="Product Category">Uncategorized</td><td data-label="Revenue">₹3,020</td><td data-label="Spend">₹699</td><td data-label="ROI">4.32</td></tr>
+          <tr><td class="label-cell" data-label="Product Category">Food Gift Baskets</td><td data-label="Revenue">₹1,215</td><td data-label="Spend">₹0</td><td data-label="ROI">0.00</td></tr>
+          <tr><td class="label-cell" data-label="Product Category">Hot Chocolate</td><td data-label="Revenue">₹176</td><td data-label="Spend">—</td><td data-label="ROI">—</td></tr>
+          <tr class="total"><td class="label-cell" data-label="Product Category">Grand Total</td><td data-label="Revenue">₹33,378</td><td data-label="Spend">₹20,853</td><td data-label="ROI">1.60</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-title">Delhi NCR — Top Products by Revenue</div>
+    <p class="table-note" style="margin-top:0;margin-bottom:10px;">Top 6 products in the catalogue campaign, by revenue. Remaining products are grouped as "Rest".</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Product</th><th>Category</th><th>Revenue</th><th>Contribution</th></tr></thead>
+        <tbody>
+          <tr><td class="label-cell" data-label="Product">Artisanal Baklava (Box of 4)</td><td data-label="Category">Dessert Toppings</td><td data-label="Revenue">₹6,412.50</td><td data-label="Contribution">19.21%</td></tr>
+          <tr><td class="label-cell" data-label="Product">Luxe Treat Box of 16</td><td data-label="Category">Candy &amp; Chocolate</td><td data-label="Revenue">₹4,882.50</td><td data-label="Contribution">14.63%</td></tr>
+          <tr><td class="label-cell" data-label="Product">Unspecified / No Product Tag</td><td data-label="Category">Uncategorized</td><td data-label="Revenue">₹3,020.00</td><td data-label="Contribution">9.05%</td></tr>
+          <tr><td class="label-cell" data-label="Product">Belgium Chocolate Truffle (Eggless) — Half Kg</td><td data-label="Category">Cakes &amp; Dessert Bars</td><td data-label="Revenue">₹2,558.70</td><td data-label="Contribution">7.67%</td></tr>
+          <tr><td class="label-cell" data-label="Product">Truffles Pack of 30 — United by Flavours</td><td data-label="Category">Candy &amp; Chocolate</td><td data-label="Revenue">₹2,430.00</td><td data-label="Contribution">7.28%</td></tr>
+          <tr><td class="label-cell" data-label="Product">Belgium Chocolate Truffle (Eggless) — 1Kg</td><td data-label="Category">Uncategorized</td><td data-label="Revenue">₹1,665.00</td><td data-label="Contribution">4.99%</td></tr>
+          <tr><td class="label-cell" data-label="Product">Rest (all other products)</td><td data-label="Category">Mixed</td><td data-label="Revenue">₹12,409.30</td><td data-label="Contribution">37.17%</td></tr>
+          <tr class="total"><td class="label-cell" data-label="Product">Total</td><td data-label="Category">—</td><td data-label="Revenue">₹33,378.00</td><td data-label="Contribution">100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-title">B2C Total Overview — Pan-India (incl. Delhi NCR)</div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Spend</th><th>Revenue</th><th>ROI</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr>
+            <td data-label="Spend">₹0</td>
+            <td data-label="Revenue">₹12,13,117</td>
+            <td data-label="ROI">—</td>
+            <td class="label-cell" data-label="Note">No pan-India ad spend this month; revenue is organic plus the Delhi NCR paid contribution</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">03</div>
+      <h2>Ads vs. Organic — B2B &amp; Experience Center</h2>
+      <p>Paid ads are profitable in both channels, but most of the revenue is still coming from organic and repeat business.</p>
+    </div>
+
+    <div class="table-title">B2B</div>
+    <div class="split-legend">
+      <span class="ads-l">Ads — ₹2,50,492 (27%)</span>
+      <span class="organic-l">Organic — ₹6,61,957 (73%)</span>
+    </div>
+    <div class="split-bar"><div class="ads" style="width:27%"></div><div class="organic" style="width:73%"></div></div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Type</th><th>Spend</th><th>Revenue</th><th>ROI / ROAS</th><th>Leads</th><th>CPL</th></tr></thead>
+        <tbody>
+          <tr class="total"><td class="label-cell" data-label="Type">Total Overview</td><td data-label="Spend">₹23,876</td><td data-label="Revenue">₹9,12,449</td><td data-label="ROI / ROAS">38.22x</td><td data-label="Leads">—</td><td data-label="CPL">—</td></tr>
+          <tr><td class="label-cell" data-label="Type">Ads</td><td data-label="Spend">₹23,876</td><td data-label="Revenue">₹2,50,492</td><td data-label="ROI / ROAS">10.49x</td><td data-label="Leads">90</td><td data-label="CPL">₹265</td></tr>
+          <tr><td class="label-cell" data-label="Type">Organic</td><td data-label="Spend">₹0</td><td data-label="Revenue">₹6,61,957</td><td data-label="ROI / ROAS">—</td><td data-label="Leads">—</td><td data-label="CPL">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-title">Experience Center</div>
+    <div class="split-legend">
+      <span class="ads-l">Ads — ₹81,501 (4%)</span>
+      <span class="organic-l">Organic — ₹18,12,857 (96%)</span>
+    </div>
+    <div class="split-bar"><div class="ads" style="width:4%"></div><div class="organic" style="width:96%"></div></div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Type</th><th>Spend</th><th>Revenue</th><th>ROI / ROAS</th></tr></thead>
+        <tbody>
+          <tr class="total"><td class="label-cell" data-label="Type">Total Overview</td><td data-label="Spend">₹28,218</td><td data-label="Revenue">₹18,94,358</td><td data-label="ROI / ROAS">67.13x</td></tr>
+          <tr><td class="label-cell" data-label="Type">Ads</td><td data-label="Spend">₹28,218</td><td data-label="Revenue">₹81,501</td><td data-label="ROI / ROAS">2.89x</td></tr>
+          <tr><td class="label-cell" data-label="Type">Organic</td><td data-label="Spend">₹0</td><td data-label="Revenue">₹18,12,857</td><td data-label="ROI / ROAS">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-title">Experience Center — Revenue Trend (Last 3 Months)</div>
+    <div class="chart-card">
+      <svg viewBox="0 0 620 280" style="width:100%;height:auto;display:block;">
+        <line x1="80" y1="220" x2="560" y2="220" stroke="rgba(242,233,219,0.3)" stroke-width="1"/>
+        <line x1="80" y1="170" x2="560" y2="170" stroke="rgba(242,233,219,0.1)" stroke-width="1"/>
+        <line x1="80" y1="120" x2="560" y2="120" stroke="rgba(242,233,219,0.1)" stroke-width="1"/>
+        <line x1="80" y1="70"  x2="560" y2="70"  stroke="rgba(242,233,219,0.1)" stroke-width="1"/>
+        <line x1="80" y1="20"  x2="560" y2="20"  stroke="rgba(242,233,219,0.1)" stroke-width="1"/>
+
+        <text x="70" y="224" text-anchor="end" font-size="11" fill="#bfad97" font-family="Arial">0</text>
+        <text x="70" y="174" text-anchor="end" font-size="11" fill="#bfad97" font-family="Arial">5L</text>
+        <text x="70" y="124" text-anchor="end" font-size="11" fill="#bfad97" font-family="Arial">10L</text>
+        <text x="70" y="74"  text-anchor="end" font-size="11" fill="#bfad97" font-family="Arial">15L</text>
+        <text x="70" y="24"  text-anchor="end" font-size="11" fill="#bfad97" font-family="Arial">20L</text>
+
+        <polyline points="80,124.75 320,111.99 560,30.56" fill="none" stroke="#c89b3c" stroke-width="3"/>
+
+        <circle cx="80"  cy="124.75" r="5" fill="#e0c17a" stroke="#241611" stroke-width="1.5"/>
+        <circle cx="320" cy="111.99" r="5" fill="#e0c17a" stroke="#241611" stroke-width="1.5"/>
+        <circle cx="560" cy="30.56"  r="5" fill="#e0c17a" stroke="#241611" stroke-width="1.5"/>
+
+        <text x="80"  y="112" text-anchor="middle" font-size="12" fill="#f2e9db" font-family="Arial" font-weight="bold">₹9.53L</text>
+        <text x="320" y="99"  text-anchor="middle" font-size="12" fill="#f2e9db" font-family="Arial" font-weight="bold">₹10.80L</text>
+        <text x="560" y="18"  text-anchor="middle" font-size="12" fill="#f2e9db" font-family="Arial" font-weight="bold">₹18.94L</text>
+
+        <text x="80"  y="245" text-anchor="middle" font-size="12" fill="#bfad97" font-family="Arial">Apr-26</text>
+        <text x="320" y="245" text-anchor="middle" font-size="12" fill="#bfad97" font-family="Arial">May-26</text>
+        <text x="560" y="245" text-anchor="middle" font-size="12" fill="#bfad97" font-family="Arial">Jun-26</text>
+      </svg>
+    </div>
+
+    <div class="table-scroll" style="margin-top:16px;">
+      <table>
+        <thead><tr><th>Month</th><th>EC Spend</th><th>EC Revenue</th><th>EC ROI</th></tr></thead>
+        <tbody>
+          <tr><td class="label-cell" data-label="Month">Apr-26</td><td data-label="EC Spend">₹30,302</td><td data-label="EC Revenue">₹9,52,517</td><td data-label="EC ROI">31.43</td></tr>
+          <tr><td class="label-cell" data-label="Month">May-26</td><td data-label="EC Spend">₹66,234</td><td data-label="EC Revenue">₹10,80,075</td><td data-label="EC ROI">16.31</td></tr>
+          <tr><td class="label-cell" data-label="Month">Jun-26</td><td data-label="EC Spend">₹28,218</td><td data-label="EC Revenue">₹18,94,358</td><td data-label="EC ROI">67.13</td></tr>
+          <tr class="total"><td class="label-cell" data-label="Month">Year to Date</td><td data-label="EC Spend">₹1,24,754</td><td data-label="EC Revenue">₹39,26,950</td><td data-label="EC ROI">31.48</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Revenue nearly doubled between May and June, while spend fell — the main driver was organic and event-led bookings (Father's Day, Yoga Day, Smoorland), not paid ads.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">04</div>
+      <h2>Overview Summary</h2>
+      <p>What happened in each business vertical this month.</p>
+    </div>
+
+    <div class="vertical-block">
+      <h4>B2C — Delhi NCR</h4>
+      <ul class="bullet-list">
+        <li>June's main objective was to test the Delhi NCR market and check whether this new region, currently around 2% of overall revenue, can scale to an efficient ROI.</li>
+        <li>Delhi NCR's revenue contribution did not move much this month, but spend was also kept low, so it is too early to draw conclusions on long-term potential.</li>
+        <li>The strategy used a mix of Awareness and Sales campaigns to build visibility and drive conversions around relevant occasions and gifting moments.</li>
+        <li>Ad spend was ₹30,652 and revenue was ₹33,377, giving a 1.09x ROAS.</li>
+      </ul>
+    </div>
+
+    <div class="vertical-block">
+      <h4>B2B</h4>
+      <ul class="bullet-list">
+        <li>B2B recorded its second-highest revenue month of the year at ₹9,12,449. This is expected to keep improving as we get closer to the festive season.</li>
+        <li>Paid ads contributed ₹2,50,492 of B2B revenue at a 10.49x ROAS.</li>
+      </ul>
+    </div>
+
+    <div class="vertical-block">
+      <h4>Experience Center</h4>
+      <ul class="bullet-list">
+        <li>The Experience Center had its highest revenue in four months at ₹18,94,358, driven by Father's Day, Yoga Day, and large Smoorland events that brought in a high volume of bookings.</li>
+        <li>Paid ads added ₹81,501 at a 2.89x ROAS. This was affected by a delayed Google Ads launch during the month.</li>
+        <li>Influencer-led promotions accounted for a large share of revenue, especially for the Smoorland event, given its larger booking capacity.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">05</div>
+      <h2>July Plan</h2>
+      <p>Planned activity for each vertical in July 2026.</p>
+    </div>
+
+    <div class="vertical-block">
+      <h4>B2C</h4>
+      <ul class="bullet-list">
+        <li>Continue testing Delhi NCR while also targeting the broader pan-India audience to capture upcoming seasonal demand.</li>
+      </ul>
+    </div>
+
+    <div class="vertical-block">
+      <h4>B2B</h4>
+      <ul class="bullet-list">
+        <li>Test multiple communication themes: Fun Friday Office Celebrations, Monthly Appreciation Hampers, Employee of the Month Rewards, and a few others.</li>
+        <li>Explore integrating Conversions API (CAPI) with the existing CRM setup to give ad platforms better feedback signals and improve lead quality.</li>
+        <li>Additional optimisations are already live in B2B lead generation campaigns to improve audience quality.</li>
+      </ul>
+    </div>
+
+    <div class="vertical-block">
+      <h4>Experience Center</h4>
+      <ul class="bullet-list">
+        <li>Aim to sustain June's growth. No major Smoorland events are scheduled right now, so the team is exploring corporate events, birthday celebrations, and other experiential formats to keep bookings up.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">06</div>
+      <h2>July 2026 Media Plan</h2>
+      <p>₹1,50,000 planned across four categories. Projected revenue is ₹32,32,148 at a blended ROI of 21.55x. Organic revenue is estimated using June's actual numbers.</p>
+    </div>
+
+    <div class="table-title">Budget Allocation</div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Category</th><th>Spend</th></tr></thead>
+        <tbody>
+          <tr><td class="label-cell" data-label="Category">B2C — Rest of Pan India</td><td data-label="Spend">₹30,000</td></tr>
+          <tr><td class="label-cell" data-label="Category">B2C — Delhi NCR Only</td><td data-label="Spend">₹35,000</td></tr>
+          <tr><td class="label-cell" data-label="Category">B2B</td><td data-label="Spend">₹40,000</td></tr>
+          <tr><td class="label-cell" data-label="Category">Experience Center</td><td data-label="Spend">₹45,000</td></tr>
+          <tr class="total"><td class="label-cell" data-label="Category">Total</td><td data-label="Spend">₹1,50,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-title">Overall BAU Media Plan — 31 Days</div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Vertical</th><th>Daily Spend</th><th>Media Spend</th><th>Impressions</th><th>CPM</th><th>Link Clicks</th><th>CPC</th><th>CVR</th><th>Orders</th><th>AOV</th><th>Expected Revenue</th><th>ROI</th><th>CAC</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="label-cell" data-label="Vertical">B2C</td><td data-label="Daily Spend">₹2,097</td><td data-label="Media Spend">₹65,000</td><td data-label="Impressions">3,67,232</td><td data-label="CPM">₹177</td><td data-label="Link Clicks">20,313</td><td data-label="CPC">₹3.20</td><td data-label="CVR">3.12%</td><td data-label="Orders">634</td><td data-label="AOV">₹2,000</td><td data-label="Expected Revenue">₹12,67,500</td><td data-label="ROI">19.50x</td><td data-label="CAC">₹103</td>
+          </tr>
+          <tr>
+            <td class="label-cell" data-label="Vertical">B2B</td><td data-label="Daily Spend">₹1,290</td><td data-label="Media Spend">₹40,000</td><td data-label="Impressions">86,393</td><td data-label="CPM">₹463</td><td data-label="Link Clicks">1,538</td><td data-label="CPC">₹26.00</td><td data-label="CVR">6%</td><td data-label="Orders">92</td><td data-label="AOV">—</td><td data-label="Expected Revenue">₹9,60,000</td><td data-label="ROI">24.00x</td><td data-label="CAC">₹433</td>
+          </tr>
+          <tr>
+            <td class="label-cell" data-label="Vertical">Experience Center</td><td data-label="Daily Spend">₹1,452</td><td data-label="Media Spend">₹45,000</td><td data-label="Impressions">4,12,844</td><td data-label="CPM">₹109</td><td data-label="Link Clicks">9,184</td><td data-label="CPC">₹4.90</td><td data-label="CVR">9%</td><td data-label="Orders">781</td><td data-label="AOV">₹1,287</td><td data-label="Expected Revenue">₹10,04,648</td><td data-label="ROI">22.33x</td><td data-label="CAC">₹58</td>
+          </tr>
+          <tr class="total">
+            <td class="label-cell" data-label="Vertical">Total</td><td data-label="Daily Spend">₹2,097</td><td data-label="Media Spend">₹1,50,000</td><td data-label="Impressions">3,67,232</td><td data-label="CPM">₹177</td><td data-label="Link Clicks">20,313</td><td data-label="CPC">₹3.20</td><td data-label="CVR">3.12%</td><td data-label="Orders">634</td><td data-label="AOV">₹2,000</td><td data-label="Expected Revenue">₹32,32,148</td><td data-label="ROI">21.55x</td><td data-label="CAC">₹237</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Note: organic revenue is estimated based on June's actual numbers.</p>
+  </div>
+</section>
+
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">07</div>
+      <h2>Campaign-Level Plan</h2>
+      <p>Platform and campaign level breakdown of the July budget.</p>
+    </div>
+
+    <div class="table-title">B2C — Pan India (Ads)</div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Platform</th><th>Campaign</th><th>Location</th><th>Spend</th><th>Day/Spend</th><th>Impressions</th><th>CPM</th><th>Clicks</th><th>CPC</th><th>CTR</th><th>CVR</th><th>Purchases</th><th>AOV</th><th>Revenue</th><th>ROAS</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="label-cell" data-label="Platform">Google</td><td data-label="Campaign">BCM_Sales_Pmax_Chocolates</td><td data-label="Location">Metro Cities</td><td data-label="Spend">₹30,000</td><td data-label="Day/Spend">₹968</td><td data-label="Impressions">1,53,053</td><td data-label="CPM">₹196</td><td data-label="Clicks">3,947</td><td data-label="CPC">₹7.60</td><td data-label="CTR">2.73%</td><td data-label="CVR">1.22%</td><td data-label="Purchases">48</td><td data-label="AOV">₹2,200</td><td data-label="Revenue">₹1,05,947</td><td data-label="ROAS">3.53x</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-title">B2C — Delhi NCR (Ads)</div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Platform</th><th>Location</th><th>Spend</th><th>Day/Spend</th><th>Impressions</th><th>CPM</th><th>Clicks</th><th>CPC</th><th>CTR</th><th>CVR</th><th>Purchases</th><th>AOV</th><th>Revenue</th><th>ROI</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="label-cell" data-label="Platform">Meta</td><td data-label="Location">Delhi NCR</td><td data-label="Spend">₹35,000</td><td data-label="Day/Spend">₹1,129</td><td data-label="Impressions">1,75,000</td><td data-label="CPM">₹200</td><td data-label="Clicks">3,182</td><td data-label="CPC">₹11.00</td><td data-label="CTR">1.82%</td><td data-label="CVR">1.11%</td><td data-label="Purchases">35</td><td data-label="AOV">₹1,287</td><td data-label="Revenue">₹45,455</td><td data-label="ROI">1.30x</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-title">B2B (Ads)</div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Platform</th><th>Location</th><th>Spend</th><th>Day/Spend</th><th>Impressions</th><th>CPM</th><th>Clicks</th><th>CPC</th><th>CTR</th><th>CVR</th><th>Leads</th><th>CPL</th><th>Expected Revenue</th><th>Expected ROAS</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="label-cell" data-label="Platform">Meta</td><td data-label="Location">Metro Cities</td><td data-label="Spend">₹40,000</td><td data-label="Day/Spend">₹1,290</td><td data-label="Impressions">85,622</td><td data-label="CPM">₹467</td><td data-label="Clicks">1,905</td><td data-label="CPC">₹21.00</td><td data-label="CTR">2.22%</td><td data-label="CVR">8%</td><td data-label="Leads">152</td><td data-label="CPL">₹263</td><td data-label="Expected Revenue">₹3,00,000</td><td data-label="Expected ROAS">7.50x</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Alongside B2B BAU: a native form test is running in Delhi, Gurugram and Noida, and a new creative theme test is running in Mumbai, Pune, Bangalore and Chennai. These feed into the July theme list (Fun Friday Celebrations, Appreciation Hampers, Employee of the Month).</p>
+
+    <div class="table-title">Experience Center (Ads)</div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Platform</th><th>Location</th><th>Spend</th><th>Day/Spend</th><th>Impressions</th><th>CPM</th><th>Clicks</th><th>CPC</th><th>CTR</th><th>CVR</th><th>Purchases</th><th>AOV</th><th>Revenue</th><th>ROAS</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="label-cell" data-label="Platform">Meta / Google</td><td data-label="Location">Bangalore Only</td><td data-label="Spend">₹45,000</td><td data-label="Day/Spend">₹1,452</td><td data-label="Impressions">4,11,560</td><td data-label="CPM">₹109</td><td data-label="Clicks">5,488</td><td data-label="CPC">₹8.20</td><td data-label="CTR">1.50%</td><td data-label="CVR">3.20%</td><td data-label="Purchases">176</td><td data-label="AOV">₹1,287</td><td data-label="Revenue">₹2,26,010</td><td data-label="ROAS">5.02x</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="cacao-strip" style="justify-content:center;"><span></span><span></span><span></span><span></span></div>
+    <div class="brand-mark">Smoor</div>
+    <p>June 2026 Performance Marketing Report</p>
+    <p>Prepared by: Sandeep Sahoo &amp; Jalnidhi Singh — Blackcoffee.media</p>
+    <p>This report is confidential and intended for internal use only. © 2026 Smoor.</p>
+  </div>
+</footer>
+
+</body>
+</html>
+
